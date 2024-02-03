@@ -1,13 +1,35 @@
 import React, { useState } from "react";
 
 function Home() {
+  const [id, setId] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
 
-const [id, setId] = useState("");
-const [name, setName] = useState("");
-const [email, setEmail] = useState("");
+  const axios = require("axios");
+  let data = JSON.stringify({
+    uid: "123",
+  });
 
 
+  let config = {
+    method: "post",
+    maxBodyLength: Infinity,
+    url: "https://b2282ce850984b03acdd516836693353.weavy.io/api/users",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer wys_ZQpIvKGlPdxPxyG936kdU20O3N8Dkm07N2Zp",
+    },
+    data: data,
+  };
 
+  axios
+    .request(config)
+    .then((response) => {
+      console.log(JSON.stringify(response.data));
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 
   return (
     <div className="flex justify-center flex-col items-center">
