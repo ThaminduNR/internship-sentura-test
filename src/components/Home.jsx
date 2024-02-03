@@ -16,21 +16,33 @@ const [email, setEmail] = useState("");
           <label>
             User ID:
             <input
-              type="text"
+              type={"id"}
+              name={"id"}
+              label={"User ID"}
+              placeholder={"Enter your ID"}
+              optional={false}
               className="border-slate-400 border p-1 rounded-md  mx-3"
             />
           </label>
           <label>
             User Name:
             <input
-              type="text"
+              type={"name"}
+              name={"name"}
+              label={"Name"}
+              placeholder={"Enter your Name"}
+              optional={false}
               className="border-slate-400 border p-1 rounded-md mx-3"
             />
           </label>
           <label>
             User Email:
             <input
-              type="text"
+              type={"email"}
+              name={"email"}
+              label={"Email"}
+              placeholder={"Enter your email"}
+              optional={false}
               className="border-slate-400 border p-1 rounded-md mx-5"
             />
           </label>
