@@ -1,6 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 
 function Home() {
+
+const [id, setId] = useState("");
+const [name, setName] = useState("");
+const [email, setEmail] = useState("");
+
+
+
+
   return (
     <div className="flex justify-center flex-col items-center">
       <form className="mt-[100px]">
@@ -39,8 +47,8 @@ function Home() {
           </button>
         </div>
       </form>
-      <div>
-        <table class="table-auto">
+      <div className="mt-10">
+        <table className="table-auto border-separate">
           <thead>
             <tr>
               <th>User ID</th>
@@ -50,17 +58,17 @@ function Home() {
           </thead>
           <tbody>
             <tr>
-              <td>The Sliding Mr. Bones (Next Stop, Pottersville)</td>
+              <td>01</td>
               <td>Malcolm Lockyer</td>
               <td>1961</td>
             </tr>
             <tr>
-              <td>Witchy Woman</td>
+              <td>02</td>
               <td>The Eagles</td>
               <td>1972</td>
             </tr>
             <tr>
-              <td>Shining Star</td>
+              <td>03</td>
               <td>Earth, Wind, and Fire</td>
               <td>1975</td>
             </tr>
