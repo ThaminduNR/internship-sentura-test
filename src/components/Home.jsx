@@ -1,76 +1,122 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
+import axios from "axios";
 
 function Home() {
   const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
 
-  const axios = require("axios");
-  let data = JSON.stringify({
-    uid: "123",
-  });
+  const [userList, setUserList] = useState([]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "https://b2282ce850984b03acdd516836693353.weavy.io/api/users",
 
-  let config = {
-    method: "post",
-    maxBodyLength: Infinity,
-    url: "https://b2282ce850984b03acdd516836693353.weavy.io/api/users",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer wys_ZQpIvKGlPdxPxyG936kdU20O3N8Dkm07N2Zp",
-    },
-    data: data,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer wys_ZQpIvKGlPdxPxyG936kdU20O3N8Dkm07N2Zp",
+            },
+          }
+        );
+
+        setUserList(response.data.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleIdChange = (event) => {
+    setId(event.target.value.trim());
   };
 
-  axios
-    .request(config)
-    .then((response) => {
-      console.log(JSON.stringify(response.data));
-    })
-    .catch((error) => {
-      console.log(error);
+  const handleNameChange = (event) => {
+    setName(event.target.value);
+  };
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log("Submitted:", id, name, email);
+
+    let data = JSON.stringify({
+      uid: id.toString(),
+      name,
+      email,
     });
+
+    let config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: "https://b2282ce850984b03acdd516836693353.weavy.io/api/users",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer wys_ZQpIvKGlPdxPxyG936kdU20O3N8Dkm07N2Zp",
+      },
+      data: data,
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <div className="flex justify-center flex-col items-center">
-      <form className="mt-[100px]">
+      <form className="mt-[100px]" onSubmit={handleSubmit}>
         <div>
           <label>
             User ID:
             <input
-              type={"id"}
-              name={"id"}
-              label={"User ID"}
-              placeholder={"Enter your ID"}
-              optional={false}
-              className="border-slate-400 border p-1 rounded-md  mx-3"
+              type="text"
+              name="id"
+              value={id}
+              onChange={handleIdChange}
+              placeholder="Enter your ID"
+              className="border-slate-400 border p-1 rounded-md mx-3"
             />
           </label>
           <label>
             User Name:
             <input
-              type={"name"}
-              name={"name"}
-              label={"Name"}
-              placeholder={"Enter your Name"}
-              optional={false}
+              type="text"
+              name="name"
+              value={name}
+              onChange={handleNameChange}
+              placeholder="Enter your Name"
               className="border-slate-400 border p-1 rounded-md mx-3"
             />
           </label>
           <label>
             User Email:
             <input
-              type={"email"}
-              name={"email"}
-              label={"Email"}
-              placeholder={"Enter your email"}
-              optional={false}
+              type="email"
+              name="email"
+              value={email}
+              onChange={handleEmailChange}
+              placeholder="Enter your email"
               className="border-slate-400 border p-1 rounded-md mx-5"
             />
           </label>
         </div>
         <div className="mt-[50px]">
-          <button className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-800 mx-4">
+          <button
+            type="submit"
+            className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-800 mx-4"
+          >
             Save
           </button>
           <button className="px-4 py-2 font-bold text-white bg-gray-500 rounded hover:bg-blue-800 mx-4">
@@ -91,21 +137,13 @@ function Home() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>01</td>
-              <td>Malcolm Lockyer</td>
-              <td>1961</td>
-            </tr>
-            <tr>
-              <td>02</td>
-              <td>The Eagles</td>
-              <td>1972</td>
-            </tr>
-            <tr>
-              <td>03</td>
-              <td>Earth, Wind, and Fire</td>
-              <td>1975</td>
-            </tr>
+            {userList.map((user) => (
+              <tr key={user.id}>
+                <td>{user.id}</td>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
